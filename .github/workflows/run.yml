@@ -39,7 +39,7 @@ jobs:
       
       - name: Push Github repo
         env:
-          PUSH_TOKEN: ${{$GITHUB_API_TOKEN}}
+          PUSH_TOKEN: ${{ secrets.REPO_KEY }}
         run: |
           curl \
           -X POST \
