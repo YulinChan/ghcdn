@@ -14,7 +14,7 @@ jobs:
       - name: Install dependent
         run: |
           sudo apt update
-          sudo apt install git-lfs aria2 ffmpeg -y
+          sudo apt install aria2 ffmpeg -y
       
       - name: Checkout source
         uses: actions/checkout@v2
@@ -27,10 +27,7 @@ jobs:
       
       - name: Slice video
         run: |
-          mkdir $(cat name.txt)git
-          ffmpeg -i $(cat name.txt)/$(cat name.txt).mp4 -c copy -f hls -bsf:v h264_mp4toannexb -hls_time 5 -hls_list_size 0 -hls_segment_filename hls%4d.js index.m3u8
-          mv index.m3u8 $(cat name.txt)git/index.html
-          mv hls*.js $(cat name.txt)git
+          ffmpeg -i $(cat name.txt)/$(cat name.txt).mp4 -c copy -f hls -bsf:v h264_mp4toannexb -hls_time 10 -hls_list_size 0 -hls_segment_filename hls%4d.ts index.m3u8
 
       - name: Setup Git
         env:
@@ -57,12 +54,18 @@ jobs:
       
       - name: Push to Github
         run: |
-          cd $(cat name.txt)git
+          mkdir -p ./gitdir/res
+          mv index.m3u8 ./gitdir/res
+          mv hls*.ts $./gitdir/res
+          cd ./gitdir
           git init
-          git lfs install
-          git lfs track "*.js"
-          git add .gitattributes
-          git add --all
+          git add ./res/hls00??.ts
+          git add ./res/index.m3u8
           git commit -m "first commit"
           git remote add origin git@github.com:ghcdn/$(cat ../name.txt).git
           git push -u origin master
+          for i in {1..9};do
+            git add ./res/hls0$i??.ts
+            git commit -m "$i st commit"
+            git push
+          done
