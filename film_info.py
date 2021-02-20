@@ -35,7 +35,7 @@ def film_info(url):
     		pic.write(res.content)
     # 生成影片信息
     with open('README.md','a+') as md:
-    	md.write('## '+f"[{title}](https://cdn.jsdelivr.net/gh/ghcdn{name}/res/index.m3u8)"+'\n')
+    	md.write('## '+f"[{title}](https://cdn.jsdelivr.net/gh/ghcdn/{name}/res/index.m3u8)"+'\n')
     	for i in range(len(img)):
     		md.write(f"![](./pic{i}.jpg)\n")
     # 生成下载信息
