@@ -24,7 +24,7 @@ jobs:
       
       - name: Fetch video info
         run: |
-          python3 film_info
+          python3 film_info.py
 
       - name: Download video
         run: |
