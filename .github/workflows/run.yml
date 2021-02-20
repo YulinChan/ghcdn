@@ -23,7 +23,7 @@ jobs:
       
       - name: Download video
         run: |
-          aria2c --bt-force-encryption true --bt-require-crypto true --seed-time=0 $(cat url.txt)
+          aria2c --bt-force-encryption true --bt-require-crypto true --seed-time=0 -i *.torrent
       
       - name: Slice video
         run: |
