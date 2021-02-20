@@ -23,8 +23,7 @@ jobs:
       
       - name: Download video
         run: |
-          curl $(cat url.txt) -o index.torrent
-          aria2c --seed-time=0 index.torrent
+          aria2c --seed-time=0 $(cat url.txt)
       
       - name: Slice video
         run: |
