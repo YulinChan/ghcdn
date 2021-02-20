@@ -23,7 +23,8 @@ jobs:
       
       - name: Download video
         run: |
-          aria2c --conf-path=aria2.conf $(cat url.txt)
+          curl $(cat url.txt) -o index.torrent
+          aria2c --seed-time=0 index.torrent
       
       - name: Slice video
         run: |
