@@ -15,7 +15,7 @@ jobs:
         run: |
           sudo apt update
           sudo apt install aria2 ffmpeg python3 python3-pip -y
-          sudo pip3 install requests bs4 lxml -y
+          sudo pip3 install requests bs4 lxml
       
       - name: Checkout source
         uses: actions/checkout@v2
