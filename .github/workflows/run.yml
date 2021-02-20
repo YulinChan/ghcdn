@@ -54,18 +54,18 @@ jobs:
       
       - name: Push to Github
         run: |
-          mkdir -p ./gitdir/res
-          mv index.m3u8 ./gitdir/res
-          mv hls*.ts $./gitdir/res
-          cd ./gitdir
+          mkdir -p gitdir/res/
+          mv index.m3u8 gitdir/res/
+          mv hls*.ts gitdir/res/
+          cd gitdir
           git init
-          git add ./res/hls00??.ts
-          git add ./res/index.m3u8
+          git add res/hls00??.ts
+          git add res/index.m3u8
           git commit -m "first commit"
           git remote add origin git@github.com:ghcdn/$(cat ../name.txt).git
           git push -u origin master
           for i in {1..9};do
-            git add ./res/hls0$i??.ts
+            git add res/hls0$i??.ts
             git commit -m "$i st commit"
             git push
           done
