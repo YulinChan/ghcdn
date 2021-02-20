@@ -23,7 +23,7 @@ jobs:
       
       - name: Download video
         run: |
-          aria2c $(cat url.txt)
+          aria2c --conf-path=./aria2.conf $(cat url.txt)
       
       - name: Slice video
         run: |
