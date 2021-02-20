@@ -25,6 +25,13 @@ jobs:
         run: |
           aria2c -x 16 $(cat url.txt)
       
+      - name: Slice video
+        run: |
+          mkdir $(cat repo.txt)
+          ffmpeg -i $name.mp4 -c:v h264 -flags +cgop -g 30 -hls_time 5 -hls_list_size 0 -hls_segment_filename hls%4d.js 'index.m3u8'
+          mv index.m3u8 $(cat repo.txt)/index.html
+          mv hls*.js $(cat repo.txt)
+
       - name: Setup Git
         env:
           ACTION_DEPLOY_KEY: ${{ secrets.VIDEO_DEPLOY_KEY }}
@@ -37,7 +44,7 @@ jobs:
           git config --global user.email "github@chan.im"
           git config --global user.name "ghcdn"
       
-      - name: Push Github repo
+      - name: Create Github repo
         env:
           PUSH_TOKEN: ${{ secrets.REPO_KEY }}
         run: |
@@ -50,4 +57,9 @@ jobs:
       
       - name: Deploy
         run: |
-          echo "done"
+          cd $(cat repo.txt)
+          git init
+          git add --all
+          git commit -m "first commit"
+          git remote add origin git@github.com:ghcdn/$(cat ../repo.txt).git
+          git push -u origin master
