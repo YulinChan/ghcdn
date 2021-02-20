@@ -1,0 +1,53 @@
+name: Video Publish
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: github.event.repository.owner.id == github.event.sender.id
+
+    steps:
+      - name: Install dependent
+        run: |
+          sudo apt update
+          sudo apt install git curl aria2 ffmpeg -y
+      
+      - name: Checkout source
+        uses: actions/checkout@v2
+        with:
+          ref: main
+      
+      - name: Download video
+        run: |
+          aria2c -x 16 $(cat url.txt)
+      
+      - name: Setup Git
+        env:
+          ACTION_DEPLOY_KEY: ${{ secrets.VIDEO_DEPLOY_KEY }}
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$ACTION_DEPLOY_KEY" > ~/.ssh/id_rsa
+          chmod 700 ~/.ssh
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+          git config --global user.email "github@chan.im"
+          git config --global user.name "ghcdn"
+      
+      - name: Push Github repo
+        env:
+          PUSH_TOKEN: ${{$GITHUB_API_TOKEN}}
+        run: |
+          curl \
+          -X POST \
+          -H "Authorization: token $PUSH_TOKEN" \
+          -H "Content-Type: application/json" \
+          https://api.github.com/user/repos \
+          -d "{\"name\": \"$(cat repo.txt)\"}"
+      
+      - name: Deploy
+        run: |
+          echo "done"
