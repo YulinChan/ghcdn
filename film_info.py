@@ -35,7 +35,7 @@ def film_info(url):
     		pic.write(res.content)
     # 生成影片信息
     with open('README.md','a+') as md:
-    	md.write('## '+title+'\n')
+    	md.write('## '+f"[{title}](https://cdn.jsdelivr.net/gh/ghcdn{name}/res/index.m3u8)"+'\n')
     	for i in range(len(img)):
     		md.write(f"![](./pic{i}.jpg)\n")
     # 生成下载信息
@@ -43,7 +43,7 @@ def film_info(url):
     	n.write(name)
     with open('url.txt','w') as dlink:
     	dlink.write(torrent)
-
+    print(title, "done !")
 
 if __name__ == '__main__':
 	with open('index.txt', 'r') as f:
