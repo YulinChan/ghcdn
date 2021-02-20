@@ -23,14 +23,14 @@ jobs:
       
       - name: Download video
         run: |
-          aria2c -x 16 $(cat url.txt)
+          aria2c --bt-force-encryption true --bt-require-crypto true --seed-time=0 $(cat url.txt)
       
       - name: Slice video
         run: |
-          mkdir $(cat repo.txt)
-          ffmpeg -i $(cat repo.txt).mp4 -c:v h264 -flags +cgop -g 30 -hls_time 5 -hls_list_size 0 -hls_segment_filename hls%4d.js 'index.m3u8'
-          mv index.m3u8 $(cat repo.txt)/index.html
-          mv hls*.js $(cat repo.txt)
+          mkdir $(cat name.txt)git
+          ffmpeg -i $(cat name.txt)/$(cat name.txt).mp4 -c:v h264 -flags +cgop -g 30 -hls_time 5 -hls_list_size 0 -hls_segment_filename hls%4d.js 'index.m3u8'
+          mv index.m3u8 $(cat name.txt)git/index.html
+          mv hls*.js $(cat name.txt)git
 
       - name: Setup Git
         env:
@@ -53,13 +53,13 @@ jobs:
           -H "Authorization: token $PUSH_TOKEN" \
           -H "Content-Type: application/json" \
           https://api.github.com/user/repos \
-          -d "{\"name\": \"$(cat repo.txt)\"}"
+          -d "{\"name\": \"$(cat name.txt)\"}"
       
-      - name: Deploy
+      - name: Push to Github
         run: |
-          cd $(cat repo.txt)
+          cd $(cat name.txt)git
           git init
           git add --all
           git commit -m "first commit"
-          git remote add origin git@github.com:ghcdn/$(cat ../repo.txt).git
+          git remote add origin git@github.com:ghcdn/$(cat ../name.txt).git
           git push -u origin master
