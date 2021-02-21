@@ -20,15 +20,23 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v2
         with:
-          ref: main
+          ref: dev
       
+      - name: Set up
+        run: |
+            python3 setup.py
+            url=$(cat url.txt)
+            video=$(cat video.txt)
+            repo=$(cat repo.txt)
+
       - name: Download video
         run: |
-            aria2c --conf-path=./aria2.conf $(cat task.txt)
+            aria2c --conf-path=./aria2.conf $url
       
       - name: Slice video
         run: |
-          rm -rf $(cat name.txt)
+          ffmpeg -i $video -c copy -f hls -bsf:v h264_mp4toannexb -hls_time 5 -hls_list_size 0 -hls_segment_filename hls%4d.ts index.m3u8
+          rm -rf $video
 
       - name: Setup Git
         env:
@@ -51,23 +59,21 @@ jobs:
           -H "Authorization: token $PUSH_TOKEN" \
           -H "Content-Type: application/json" \
           https://api.github.com/user/repos \
-          -d "{\"name\": \"$(cat name.txt)\"}"
+          -d "{\"name\": \"$repo\"}"
       
       - name: Push to Github
         run: |
           mkdir -p gitdir/res/
           mv index.m3u8 gitdir/res/
           mv hls*.ts gitdir/res/
-          mv *.jpg gitdir/
-          mv README.md gitdir/
           mv index.html gitdir/
           cd gitdir
           git init
           git add res/hls00??.ts
           git add res/index.m3u8
-          git add *.jpg README.md index.html
-          git commit -m "first commit"
-          git remote add origin git@github.com:ghcdn/$(cat ../name.txt).git
+          git add index.html
+          git commit -m "0 st commit"
+          git remote add origin git@github.com:ghcdn/$repo.git
           git push -u origin master
           for i in {0..9};do
             for j in {1..9};do

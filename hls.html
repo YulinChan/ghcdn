@@ -2,17 +2,16 @@
 <html>
 
 <head>
-    <title>hls player| {name} </title>
+    <title>hls player| {repo} </title>
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
 
 <body>
     <div id="movie" align="center">
-        <video id="video"  width=80% height="500" controls poster="https://cdn.jsdelivr.net/gh/ghcdn/{name}/pic0.jpg"></video>
-        <p>{title}</p>
+        <video id="video"  width=80% height="500" controls></video>
         <script>
         var video = document.getElementById('video');
-        var videoSrc = 'https://cdn.jsdelivr.net/gh/ghcdn/{name}/res/index.m3u8';
+        var videoSrc = 'https://cdn.jsdelivr.net/gh/ghcdn/{repo}/res/index.m3u8';
         if (Hls.isSupported()) {
             var hls = new Hls();
             hls.loadSource(videoSrc);
