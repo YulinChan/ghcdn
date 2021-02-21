@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 import requests
+from bs4 import BeautifulSoup
 
 
 def setup():
@@ -17,12 +18,36 @@ def setup():
     repo.close()
     print(info[0], info[1], info[2])
     print("任务解析完毕！")
+    return info[2]
+
+
+def gen_film_info(video_id):
+    r = requests.get(f'https://www.javbus.com/{video_id}')
+    soup = BeautifulSoup(r.text, 'lxml')
+    title = soup.find('h3').text.strip()
+    poster = soup.find('div', {'class': 'screencap'}).a['href']
+    info = soup.find('div', {'class': 'info'}).text.strip()
+    img = soup.find('div', id='sample-waterfall').find_all('a')
+    img_links = [poster]
+    for i in img:
+        img_links.append(i['href'])
+
+    for i, url in zip(range(len(img_links)), img_links):
+        r = requests.get(url)
+        with open(f"pic{i}.jpg", 'wb') as pic:
+            pic.write(r.content)
+
     # 生成影片信息
     hls = open('hls.html', 'r')
     html = open('index.html', 'w')
-    html.write(hls.read().replace('{name}', info[2]))
+    html.write(hls.read().replace('{repo}', video_id).replace('{title}', title))
     hls.close()
     html.close()
+    md = open('README.md', 'a+')
+    md.write(f'## {title}\n')
+    md.write(info)
+    for i in range(len(img_links)):
+        md.write(f"![](./pic{i}.jpg)\n")
     print("影片信息已生成！")
 
 
@@ -42,6 +67,7 @@ def add_tracker(url):
 
 
 if __name__ == '__main__':
+    vid = setup()
+    gen_film_info(vid)
     tracker_url = "https://trackerslist.com/best.txt"
-    setup()
     add_tracker(tracker_url)

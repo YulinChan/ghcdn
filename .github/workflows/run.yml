@@ -71,7 +71,7 @@ jobs:
           git add res/index.m3u8
           git add index.html
           git commit -m "0 st commit"
-          git remote add origin git@github.com:ghcdn/$(cat repo.txt).git
+          git remote add origin git@github.com:ghcdn/$(cat ../repo.txt).git
           git push -u origin master
           for i in {0..9};do
             for j in {1..9};do
