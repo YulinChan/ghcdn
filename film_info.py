@@ -65,7 +65,7 @@ def add_tracker(url):
     r = requests.get(url)
     trackers = r.text.splitlines()
     tracker_list = []
-    for i in tracker_list:
+    for i in trackers:
         if i:
             tracker_list.append(i)
     with open('aria2.conf', 'a+') as conf:
