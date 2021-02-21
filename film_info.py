@@ -70,7 +70,7 @@ def add_tracker(url):
             tracker_list.append(i)
     with open('aria2.conf', 'a+') as conf:
         conf.write(f"bt-tracker={tracker_list}")
-    pprint(tracker_list)
+        print(conf.read())
     print("tracker添加完毕！")
 
 if __name__ == '__main__':
