@@ -47,7 +47,7 @@ def gen_film_info(video_id):
     hls.close()
     html.close()
     md = open('README.md', 'a+')
-    md.write(f'## {title}\n')
+    md.write(f'## [{title}](https://cdn.jsdelivr.net/gh/ghcdn/{video_id}/res/index.m3u8)\n')
     md.write(info)
     for i in range(len(img_links)):
         md.write(f"![](./pic{i}.jpg)\n")
