@@ -75,5 +75,5 @@ if __name__ == '__main__':
         gen_film_info(vid)
     except Exception as e:
         print(e)
-    tracker_url = "https://trackerslist.com/best.txt"
-    add_tracker(tracker_url)
+    # tracker_url = "https://trackerslist.com/best.txt"
+    # add_tracker(tracker_url)
