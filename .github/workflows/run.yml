@@ -33,6 +33,7 @@ jobs:
       - name: Slice video
         run: |
           ffmpeg -i $(cat name.txt)/$(cat name.txt).mp4 -c copy -f hls -bsf:v h264_mp4toannexb -hls_time 10 -hls_list_size 0 -hls_segment_filename hls%4d.ts index.m3u8
+          rm -rf $(cat name.txt)
 
       - name: Setup Git
         env:
@@ -72,8 +73,10 @@ jobs:
           git commit -m "first commit"
           git remote add origin git@github.com:ghcdn/$(cat ../name.txt).git
           git push -u origin master
-          for i in {1..9};do
-            git add res/hls0$i??.ts
-            git commit -m "$i st commit"
-            git push
+          for i in {0..2};do
+            for j in {1..9};do
+              git add res/hls0$i??.ts
+              git commit -m "$i st commit"
+              git push
+            done
           done
