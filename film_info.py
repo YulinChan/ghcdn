@@ -29,7 +29,7 @@ def film_info(url):
 
     bt = soup.find('div', {'id': re.compile(r"post_\d*?")}).find('div', {'class': "t_fsz"}).find('p', {
         'class': "attnm"})
-    name = bt.text.strip().split('.')[0]
+    name = bt.text.strip().replace('.torrent','')
     torrent = 'https://www.sehuatang.net/' + bt.a['href']
     print(name, torrent)
     print("种子信息提取完毕！")
@@ -46,6 +46,10 @@ def film_info(url):
     	md.write('## '+f"[{title}](https://cdn.jsdelivr.net/gh/ghcdn/{name}/res/index.m3u8)"+'\n')
     	for i in range(len(img)):
     		md.write(f"![](./pic{i}.jpg)\n")
+    with open('index.html', 'w+') as html:
+    	s = html.read()
+    	h5 = s.replace("{name}", name).replace("{title}",title)
+    	html.write(h5)
     print("影片信息已生成！")
 
     # 生成下载信息
@@ -57,6 +61,6 @@ def film_info(url):
     print(title, "处理完毕！")
 
 if __name__ == '__main__':
-	with open('index.txt', 'r') as f:
+	with open('task.txt', 'r') as f:
 		link = f.read()
 		film_info(link)
