@@ -14,7 +14,7 @@ def film_info(url):
     soup = BeautifulSoup(r.text, 'lxml')
     soup.prettify()
     title = soup.find('h1', {'class': "ts"}).text.replace('\n', '')
-    print(f"开始处理 {tiltle}")
+    print("开始处理", tiltle)
     article_content = soup.find('div', {'id': re.compile(r"post_\d*?")}).find('div', {
         'class': "t_fsz"}).table.find('td')
     article_img = article_content.find_all('img')
