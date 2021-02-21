@@ -63,7 +63,7 @@ def film_info(url):
 
 def add_tracker(url):
     r = requests.get(url)
-    trackers = r.text.splitline()
+    trackers = r.text.splitlines()
     tracker_list = []
     for i in tracker_list:
         if i:
