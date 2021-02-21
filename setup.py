@@ -57,12 +57,10 @@ def gen_film_info(video_id):
 def add_tracker(url):
     r = requests.get(url)
     trackers = r.text.splitlines()
-    tracker_list = []
+    conf = open('aria2.conf', 'a+')
     for i in trackers:
         if i:
-            tracker_list.append(i)
-    conf = open('aria2.conf', 'a+')
-    conf.write(f"bt-tracker={tracker_list}")
+            conf.write(f"bt-tracker={i}\n")
     conf.close()
     with open('aria2.conf', 'r') as f:
         print(f.read())
@@ -75,5 +73,5 @@ if __name__ == '__main__':
         gen_film_info(vid)
     except Exception as e:
         print(e)
-    # tracker_url = "https://trackerslist.com/best.txt"
-    # add_tracker(tracker_url)
+    tracker_url = "https://trackerslist.com/best.txt"
+    add_tracker(tracker_url)
