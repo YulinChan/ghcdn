@@ -15,6 +15,7 @@ def setup():
     task.close()
     url.close()
     repo.close()
+    print(info[0], info[1], info[2])
     print("任务解析完毕！")
     # 生成影片信息
     hls = open('hls.html', 'r')

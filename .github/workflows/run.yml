@@ -25,9 +25,9 @@ jobs:
       - name: Set up
         run: |
             python3 setup.py
-            url=$(cat url.txt)
-            video=$(cat video.txt)
-            repo=$(cat repo.txt)
+            export url=$(cat url.txt)
+            export video=$(cat video.txt)
+            export repo=$(cat repo.txt)
 
       - name: Download video
         run: |
