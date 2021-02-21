@@ -25,6 +25,7 @@ jobs:
       
       - name: Set up
         run: |
+            rm README.md
             python3 setup.py
 
       - name: Download video
@@ -62,19 +63,16 @@ jobs:
       - name: Push to Github
         run: |
           mkdir -p gitdir/res/
-          mv index.m3u8 gitdir/res/
-          mv hls*.ts gitdir/res/
-          mv index.html gitdir/
+          mv index.html README.md pic*.jpg gitdir/
+          mv index.m3u8 hls*.ts gitdir/res/
           cd gitdir
           git init
-          git add res/hls00??.ts
-          git add res/index.m3u8
-          git add index.html
+          git add index.html README.md pic*.jpg res/index.m3u8
           git commit -m "0 st commit"
           git remote add origin git@github.com:ghcdn/$(cat ../repo.txt).git
           git push -u origin master
           for i in {0..9};do
-            for j in {1..9};do
+            for j in {0..9};do
               files=(res/hls$i$j??.ts)
               if [ -f ${files[0]} ];then
                 git add "${files[@]}"

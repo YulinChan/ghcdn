@@ -16,8 +16,7 @@ def setup():
     task.close()
     url.close()
     repo.close()
-    print(info[0], info[1], info[2])
-    print("任务解析完毕！")
+    print(info[0], info[1], info[2], "任务解析完毕！")
     return info[2]
 
 
@@ -36,6 +35,9 @@ def gen_film_info(video_id):
         r = requests.get(url)
         with open(f"pic{i}.jpg", 'wb') as pic:
             pic.write(r.content)
+    print(info)
+    print(img_links)
+    print(title, "信息提取完毕！")
 
     # 生成影片信息
     hls = open('hls.html', 'r')
