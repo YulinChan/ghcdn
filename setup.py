@@ -2,6 +2,7 @@
 import requests
 from bs4 import BeautifulSoup
 
+header = {'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:85.0) Gecko/20100101 Firefox/85.0'}
 
 def setup():
     # 解析任务
@@ -21,7 +22,7 @@ def setup():
 
 
 def gen_film_info(video_id):
-    r = requests.get(f'https://www.javbus.com/{video_id}')
+    r = requests.get(f'https://www.javbus.com/{video_id}', headers= header)
     soup = BeautifulSoup(r.text, 'lxml')
     title = soup.find('h3').text.strip()
     poster = soup.find('div', {'class': 'screencap'}).a['href']
@@ -32,7 +33,7 @@ def gen_film_info(video_id):
         img_links.append(i['href'])
 
     for i, url in zip(range(len(img_links)), img_links):
-        r = requests.get(url)
+        r = requests.get(url, headers= header)
         with open(f"pic{i}.jpg", 'wb') as pic:
             pic.write(r.content)
     print(info)
@@ -70,6 +71,9 @@ def add_tracker(url):
 
 if __name__ == '__main__':
     vid = setup()
-    gen_film_info(vid)
+    try:
+        gen_film_info(vid)
+    except Exception as e:
+        print(e)
     tracker_url = "https://trackerslist.com/best.txt"
     add_tracker(tracker_url)
