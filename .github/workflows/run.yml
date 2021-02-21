@@ -78,11 +78,11 @@ jobs:
                 git commit -m "$j$i st commit"
                 git push
               else
+                mv index.html README.md pic*.jpg gitdir/
+                git add index.html README.md pic*.jpg
+                git commit -m "last commit"
+                git push
                 exit 0
               fi
             done
           done
-          mv index.html README.md pic*.jpg gitdir/
-          git add index.html README.md pic*.jpg
-          git commit -m "last commit"
-          git push
