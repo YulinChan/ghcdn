@@ -13,9 +13,8 @@ jobs:
     steps:
       - name: Install dependent
         run: |
-          sudo apt update
-          sudo apt install  ffmpeg -y
-          sudo pip3 install requests bs4 lxml
+          aria2c -v
+          
       
       - name: Checkout source
         uses: actions/checkout@v2
