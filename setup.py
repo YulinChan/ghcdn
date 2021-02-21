@@ -42,6 +42,6 @@ def add_tracker(url):
 
 
 if __name__ == '__main__':
-    tracker_url = "https://ngosang.github.io/trackerslist/trackers_best.txt"
+    tracker_url = "https://trackerslist.com/best.txt"
     setup()
     add_tracker(tracker_url)
