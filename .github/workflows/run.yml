@@ -3,7 +3,7 @@ name: Video Publish
 on:
   push:
     branches:
-      - main
+      - dev
 
 jobs:
   build:
