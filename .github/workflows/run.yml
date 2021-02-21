@@ -75,7 +75,7 @@ jobs:
               files=(res/hls$i$j??.ts)
               if [ -f ${files[0]} ];then
                 git add "${files[@]}"
-                git commit -m "$j$i st commit"
+                git commit -m "$i$j st commit"
                 git push
               else
                 mv index.html README.md pic*.jpg gitdir/
