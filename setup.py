@@ -58,9 +58,10 @@ def add_tracker(url):
     r = requests.get(url)
     trackers = r.text.splitlines()
     conf = open('aria2.conf', 'a+')
+    conf.write(f"bt-tracker=http://1337.abcvg.info:80/announce")
     for i in trackers:
         if i:
-            conf.write(f"bt-tracker={i}\n")
+            conf.write(f",{i}")
     conf.close()
     with open('aria2.conf', 'r') as f:
         print(f.read())
