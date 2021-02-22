@@ -42,13 +42,9 @@ jobs:
           ACTION_DEPLOY_KEY: ${{ secrets.VIDEO_DEPLOY_KEY }}
         run: |
           mkdir -p ~/.ssh/
-          echo "$ACTION_DEPLOY_KEY" > ~/.ssh/id_ed25519
+          echo "$ACTION_DEPLOY_KEY" > ~/.ssh/id_rsa
           chmod 700 ~/.ssh
-          chmod 600 ~/.ssh/id_ed25519
-
-          eval "$(ssh-agent -s)"
-          ssh-add ~/.ssh/id_ed25519
-          
+          chmod 600 ~/.ssh/id_rsa
           ssh-keyscan github.com >> ~/.ssh/known_hosts
           git config --global user.email "github@chan.im"
           git config --global user.name "ghcdn"
