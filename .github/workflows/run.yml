@@ -78,7 +78,7 @@ jobs:
                 git commit -m "$i$j st commit"
                 git push
               else
-                mv index.html README.md pic*.jpg gitdir/
+                mv ../index.html ../README.md ../pic*.jpg ./
                 git add index.html README.md pic*.jpg
                 git commit -m "last commit"
                 git push

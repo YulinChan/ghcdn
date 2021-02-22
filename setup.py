@@ -2,7 +2,9 @@
 import requests
 from bs4 import BeautifulSoup
 
-header = {'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:85.0) Gecko/20100101 Firefox/85.0'}
+header = {
+    'User-Agent': 'Mozilla/5.0 (x86_64; rv:85.0) Gecko/20100101 Firefox/85.0'}
+
 
 def setup():
     # 解析任务
@@ -22,32 +24,40 @@ def setup():
 
 
 def gen_film_info(video_id):
-    r = requests.get(f'https://www.javbus.com/{video_id}', headers= header)
-    soup = BeautifulSoup(r.text, 'lxml')
-    title = soup.find('h3').text.strip()
-    poster = soup.find('div', {'class': 'screencap'}).a['href']
-    info = soup.find('div', {'class': 'info'}).text.strip()
-    img = soup.find('div', id='sample-waterfall').find_all('a')
-    img_links = [poster]
-    for i in img:
-        img_links.append(i['href'])
+    try:
+        r = requests.get(f'https://www.javbus.com/{video_id}', headers=header)
+        soup = BeautifulSoup(r.text, 'lxml')
+        title = soup.find('h3').text.strip()
+        poster = soup.find('div', {'class': 'screencap'}).a['href']
+        info = soup.find('div', {'class': 'info'}).text.strip()
+        img = soup.find('div', id='sample-waterfall').find_all('a')
+        img_links = [poster]
+        for i in img:
+            img_links.append(i['href'])
 
-    for i, url in zip(range(len(img_links)), img_links):
-        r = requests.get(url, headers= header)
-        with open(f"pic{i}.jpg", 'wb') as pic:
-            pic.write(r.content)
-    print(info)
-    print(img_links)
-    print(title, "信息提取完毕！")
+        for i, url in zip(range(len(img_links)), img_links):
+            r = requests.get(url, headers=header)
+            with open(f"pic{i}.jpg", 'wb') as pic:
+                pic.write(r.content)
+        print(info)
+        print(img_links)
+        print(title, "信息提取完毕！")
+    except Exception as e:
+        title = video_id
+        info = ''
+        img_links = []
+        print(e, "没找到相关影片信息！")
 
     # 生成影片信息
     hls = open('hls.html', 'r')
     html = open('index.html', 'w')
-    html.write(hls.read().replace('{repo}', video_id).replace('{title}', title))
+    html.write(hls.read().replace(
+        '{repo}', video_id).replace('{title}', title))
     hls.close()
     html.close()
     md = open('README.md', 'a+')
-    md.write(f'## [{title}](https://cdn.jsdelivr.net/gh/ghcdn/{video_id}/res/index.m3u8)\n')
+    md.write(
+        f'## [{title}](https://cdn.jsdelivr.net/gh/ghcdn/{video_id}/res/index.m3u8)\n')
     md.write(info)
     for i in range(len(img_links)):
         md.write(f"![](./pic{i}.jpg)\n")
