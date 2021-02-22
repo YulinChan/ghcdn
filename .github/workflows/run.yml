@@ -45,8 +45,10 @@ jobs:
           echo "$ACTION_DEPLOY_KEY" > ~/.ssh/id_ed25519
           chmod 700 ~/.ssh
           chmod 600 ~/.ssh/id_ed25519
+
           eval "$(ssh-agent -s)"
           ssh-add ~/.ssh/id_ed25519
+          
           ssh-keyscan github.com >> ~/.ssh/known_hosts
           git config --global user.email "github@chan.im"
           git config --global user.name "ghcdn"
