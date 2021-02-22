@@ -77,5 +77,5 @@ if __name__ == '__main__':
     with open('task.txt', 'r') as f:
         link = f.read()
         film_info(link)
-    tracker_url = "https://trackerslist.com/best_aria2.txt"
-    add_tracker(tracker_url)
+    # tracker_url = "https://trackerslist.com/best_aria2.txt"
+    # add_tracker(tracker_url)
