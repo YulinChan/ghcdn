@@ -1,4 +1,4 @@
-In task.txt, 
+In task.txt，
 
 first line fill url/magic-link/torrent
 
