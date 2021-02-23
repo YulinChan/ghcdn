@@ -62,7 +62,7 @@ def gen_film_info(video_id):
     for i in range(len(img_links)):
         md.write(f"![](./pic{i}.jpg)\n")
     for i in range(6):
-        md.write(f"![](./thumb.0{i}.jpg)\n")
+        md.write(f"![](./thumb0{i+1}.jpg)\n")
     print("影片信息已生成！")
 
 
