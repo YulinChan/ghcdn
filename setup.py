@@ -59,16 +59,17 @@ def gen_film_info(video_id):
     md = open('README.md', 'a+')
     md.write(
         f'## [{title}](https://cdn.jsdelivr.net/gh/ghcdn/{video_id}/res/index.m3u8)\n\n')
-    md.write(info + '\n\n')
-    md.write('<img src="./img/pic0.jpg" width=100%>\n')
-    md.write('<div id="offical-pic">\n')
-    cnt = 0
-    for i in range(1, len(img_links)):
-        md.write(f'<img src="./img/pic{i}.jpg" width=33% > ')
-        cnt += 1
-        if cnt % 3 == 0:
-            print('\n')
-    md.write('</div>\n')
+    if info:
+        md.write(info + '\n\n')
+        md.write('<img src="./img/pic0.jpg" width=100%>\n')
+        md.write('<div id="offical-pic">\n')
+        cnt = 0
+        for i in range(1, len(img_links)):
+            md.write(f'<img src="./img/pic{i}.jpg" width=33% > ')
+            cnt += 1
+            if cnt % 3 == 0:
+                print('\n')
+        md.write('</div>\n')
     with open('thumb.html', 'r') as thumb:
         md.write(thumb.read())
     md.close()
