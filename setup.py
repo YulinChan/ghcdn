@@ -57,10 +57,12 @@ def gen_film_info(video_id):
     html.close()
     md = open('README.md', 'a+')
     md.write(
-        f'## [{title}](https://cdn.jsdelivr.net/gh/ghcdn/{video_id}/res/index.m3u8)\n')
-    md.write(info)
+        f'## [{title}](https://cdn.jsdelivr.net/gh/ghcdn/{video_id}/res/index.m3u8)\n\n')
+    md.write(info+'\n\n')
     for i in range(len(img_links)):
         md.write(f"![](./pic{i}.jpg)\n")
+    for i in range(6):
+        md.write(f"![](./thumb.0{i}.jpg)\n")
     print("影片信息已生成！")
 
 

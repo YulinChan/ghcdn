@@ -34,6 +34,7 @@ jobs:
       
       - name: Slice video
         run: |
+          ffmpeg -ss 3 -i $(cat video.txt) -vf "select=gt(scene\,0.4)" -frames:v 6 -vsync vfr -vf fps=fps=1/600 thumb%02d.jpg
           ffmpeg -i $(cat video.txt) -c copy -f hls -bsf:v h264_mp4toannexb -hls_list_size 0 -hls_segment_filename hls%4d.ts index.m3u8
           rm -rf $(cat video.txt)
 
@@ -63,11 +64,12 @@ jobs:
       - name: Push to Github
         run: |
           mkdir -p gitdir/res/
+          mv index.html README.md *.jpg gitdir/
           mv index.m3u8 hls*.ts gitdir/res/
           cd gitdir
           git init
-          git add res/index.m3u8
-          git commit -m "add m3u8"
+          git add index.html README.md *.jpg res/index.m3u8
+          git commit -m "add video info"
           git remote add origin git@github.com:ghcdn/$(cat ../repo.txt).git
           git push -u origin master
           for i in {0..9};do
@@ -78,10 +80,6 @@ jobs:
                 git commit -m "$i$j st commit"
                 git push
               else
-                mv ../index.html ../README.md ../pic*.jpg ./
-                git add index.html README.md pic*.jpg
-                git commit -m "last commit"
-                git push
                 exit 0
               fi
             done
