@@ -30,8 +30,9 @@ jobs:
         run: |
           aria2c --conf-path=./aria2.conf $(cat url.txt)
       
-      - name: Slice video
+      - name: Process video
         run: |
+          ffmpeg -ss 3 -i $(cat name.txt)/$(cat name.txt).mp4 -vf "select=gt(scene\,0.4)" -frames:v 16 -vsync vfr -vf fps=fps=1/450 thumb%02d.jpg
           ffmpeg -i $(cat name.txt)/$(cat name.txt).mp4 -c copy -f hls -bsf:v h264_mp4toannexb -hls_list_size 0 -hls_segment_filename hls%4d.ts index.m3u8
           rm -rf $(cat name.txt)
 
@@ -61,11 +62,13 @@ jobs:
       - name: Push to Github
         run: |
           mkdir -p gitdir/res/
-          mv README.md index.html *.jpg gitdir/
-          mv index.m3u8 hls*.ts gitdir/res/          
+          mkdir -p gitdir/img/
+          mv README.md index.html gitdir/
+          mv *.jpg gitdir/img  
+          mv index.m3u8 hls*.ts gitdir/res/
           cd gitdir
           git init
-          git add *.jpg README.md index.html res/index.m3u8
+          git add img README.md index.html res/index.m3u8
           git commit -m "add film info"
           git remote add origin git@github.com:ghcdn/$(cat ../name.txt).git
           git push -u origin master

@@ -40,17 +40,20 @@ def film_info(url):
     print("封面图片已下载！")
 
     # 生成影片信息
-    with open('README.md', 'a+') as md:
-        md.write(
-            '## ' + f"[{title}](https://cdn.jsdelivr.net/gh/ghcdn/{name}/res/index.m3u8)" + '\n')
-        for i in range(len(img)):
-            md.write(f"![](./pic{i}.jpg)\n")
-
+    md = open('README.md', 'a+')
+    md.write('## ' + f"[{title}](https://cdn.jsdelivr.net/gh/ghcdn/{name}/res/index.m3u8)" + '\n\n')
+    thumb = open('thumb.html', 'r')
+    md.write('<img src="./img/pic0.jpg" width=100%>\n')
+    md.write(thumb.read())
+    for i in range(1, len(img)):
+        md.write(f"![](./pic{i}.jpg)\n")
     hls = open('hls.html', 'r')
     html = open('index.html', 'w')
     html.write(hls.read().replace('{name}', name).replace('{title}', title))
+    md.close()
     hls.close()
     html.close()
+    thumb.close()
     print("影片信息已生成！")
 
     # 生成下载信息
@@ -77,5 +80,5 @@ if __name__ == '__main__':
     with open('task.txt', 'r') as f:
         link = f.read()
         film_info(link)
-    # tracker_url = "https://trackerslist.com/best_aria2.txt"
-    # add_tracker(tracker_url)
+    tracker_url = "https://trackerslist.com/best_aria2.txt"
+    add_tracker(tracker_url)
