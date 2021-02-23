@@ -61,11 +61,11 @@ def gen_film_info(video_id):
     md.write(
         f'## [{title}](https://cdn.jsdelivr.net/gh/ghcdn/{video_id}/res/index.m3u8)\n\n')
     md.write(info + '\n\n')
-    md.write('<img src="poster.jpg" width=100%>\n')
+    md.write('<img src="./img/poster.jpg" width=100%>\n')
     md.write('<div id="offical-pic">\n')
     cnt = 0
     for i in range(len(img_links)):
-        md.write(f'<img src="./pic{i}.jpg" width=25% >')
+        md.write(f'<img src="./img/pic{i}.jpg" width=25% >')
         cnt += 1
         if cnt % 4 == 0:
             print('\n')
