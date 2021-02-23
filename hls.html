@@ -8,11 +8,19 @@
 
 <body>
     <div id="movie" align="center">
-        <video id="video"  width=80% height="500" controls poster="https://cdn.jsdelivr.net/gh/ghcdn/{repo}/pic0.jpg"></video>
+        <video id="video"  width=80% height="500" controls poster="./poster.jpg"></video>
         <p>{title}</p>
+        <p>视频略缩图：</p>
+        <div id="thumb-pic">
+            <img src="./thumb01.jpg" width=25%><img src="./thumb02.jpg" width=25%><img src="./thumb03.jpg" width=25%><img src="./thumb04.jpg" width=25%>
+            <img src="./thumb05.jpg" width=25%><img src="./thumb06.jpg" width=25%><img src="./thumb07.jpg" width=25%><img src="./thumb08.jpg" width=25%>
+            <img src="./thumb09.jpg" width=25%><img src="./thumb10.jpg" width=25%><img src="./thumb11.jpg" width=25%><img src="./thumb12.jpg" width=25%>
+            <img src="./thumb13.jpg" width=25%><img src="./thumb14.jpg" width=25%><img src="./thumb15.jpg" width=25%><img src="./thumb16.jpg" width=25%>
+            <img src="./thumb17.jpg" width=25%><img src="./thumb18.jpg" width=25%><img src="./thumb19.jpg" width=25%><img src="./thumb20.jpg" width=25%>
+        </div>
         <script>
         var video = document.getElementById('video');
-        var videoSrc = 'https://cdn.jsdelivr.net/gh/ghcdn/{repo}/res/index.m3u8';
+        var videoSrc = './res/index.m3u8';
         if (Hls.isSupported()) {
             var hls = new Hls();
             hls.loadSource(videoSrc);

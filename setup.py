@@ -31,7 +31,7 @@ def gen_film_info(video_id):
         poster = soup.find('div', {'class': 'screencap'}).a['href']
         info = soup.find('div', {'class': 'info'}).text.strip()
         img = soup.find('div', id='sample-waterfall').find_all('a')
-        img_links = [poster]
+        img_links = []
         for i in img:
             img_links.append(i['href'])
 
@@ -40,7 +40,7 @@ def gen_film_info(video_id):
             with open(f"pic{i}.jpg", 'wb') as pic:
                 pic.write(r.content)
         print(info)
-        print(img_links)
+        print(poster, img_links)
         print(title, "信息提取完毕！")
     except Exception as e:
         title = video_id
@@ -48,21 +48,31 @@ def gen_film_info(video_id):
         img_links = []
         print(e, "没找到相关影片信息！")
 
-    # 生成影片信息
+    # 生成index.html
     hls = open('hls.html', 'r')
     html = open('index.html', 'w')
     html.write(hls.read().replace(
         '{repo}', video_id).replace('{title}', title))
     hls.close()
     html.close()
+
+    # 生成README.md
     md = open('README.md', 'a+')
     md.write(
         f'## [{title}](https://cdn.jsdelivr.net/gh/ghcdn/{video_id}/res/index.m3u8)\n\n')
-    md.write(info+'\n\n')
+    md.write(info + '\n\n')
+    md.write('<img src="poster.jpg" width=100%>\n')
+    md.write('<div id="offical-pic">\n')
+    cnt = 0
     for i in range(len(img_links)):
-        md.write(f"![](./pic{i}.jpg)\n")
-    for i in range(6):
-        md.write(f"![](./thumb0{i+1}.jpg)\n")
+        md.write(f'<img src="./pic{i}.jpg" width=25% >')
+        cnt += 1
+        if cnt % 4 == 0:
+            print('\n')
+    md.write('</div>\n')
+    with open('thumb.html', 'r') as thumb:
+        md.write(thumb.read())
+    md.close()
     print("影片信息已生成！")
 
 
