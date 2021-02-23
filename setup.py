@@ -31,10 +31,9 @@ def gen_film_info(video_id):
         poster = soup.find('div', {'class': 'screencap'}).a['href']
         info = soup.find('div', {'class': 'info'}).text.strip()
         img = soup.find('div', id='sample-waterfall').find_all('a')
-        img_links = []
+        img_links = [poster]
         for i in img:
             img_links.append(i['href'])
-
         for i, url in zip(range(len(img_links)), img_links):
             r = requests.get(url, headers=header)
             with open(f"pic{i}.jpg", 'wb') as pic:
@@ -61,13 +60,13 @@ def gen_film_info(video_id):
     md.write(
         f'## [{title}](https://cdn.jsdelivr.net/gh/ghcdn/{video_id}/res/index.m3u8)\n\n')
     md.write(info + '\n\n')
-    md.write('<img src="./img/poster.jpg" width=100%>\n')
+    md.write('<img src="./img/pic0.jpg" width=100%>\n')
     md.write('<div id="offical-pic">\n')
     cnt = 0
     for i in range(len(img_links)):
-        md.write(f'<img src="./img/pic{i}.jpg" width=25% >')
+        md.write(f'<img src="./img/pic{i}.jpg" width=33% >')
         cnt += 1
-        if cnt % 4 == 0:
+        if cnt % 3 == 0:
             print('\n')
     md.write('</div>\n')
     with open('thumb.html', 'r') as thumb:
