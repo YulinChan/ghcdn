@@ -1,3 +1,3 @@
-magnet:?xt=urn:btih:35e8c20f28ba8fc55e04c6d34c51b99e8d9cb57f
-MD0134/*.mp4
-mod-wmm-student
+magnet:?xt=urn:btih:af525148b3dc7403b5718ca78f7fee2375dc67d7
+JD013/*.mp4
+JD013
