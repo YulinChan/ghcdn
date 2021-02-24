@@ -2,8 +2,7 @@
 import requests
 from bs4 import BeautifulSoup
 
-header = {
-    'User-Agent': 'Mozilla/5.0 (x86_64; rv:85.0) Gecko/20100101 Firefox/85.0'}
+header = {'User-Agent': 'Mozilla/5.0 (x86_64; rv:85.0) Gecko Firefox'}
 
 
 def setup():
@@ -57,21 +56,16 @@ def gen_film_info(video_id):
 
     # 生成README.md
     md = open('README.md', 'a+')
-    md.write(
-        f'## [{title}](https://cdn.jsdelivr.net/gh/ghcdn/{video_id}/res/index.m3u8)\n\n')
+    md.write(f'## [{title}](./res/index.m3u8)\n\n')
     if info:
         md.write(info + '\n\n')
         md.write('<img src="./img/pic0.jpg" width=100%> \n')
-        md.write('<div id="offical-pic"> \n')
-        cnt = 0
-        for i in range(1, len(img_links)):
-            md.write(f'<img src="./img/pic{i}.jpg" width=24% > ')
-            cnt += 1
-            if cnt % 3 == 0:
-                md.write('\n')
-        md.write('\n</div>\n')
     with open('thumb.html', 'r') as thumb:
         md.write(thumb.read())
+    if info:
+        md.write("\n高清样图：\n\n")
+        for i in range(1, len(img_links)):
+            md.write(f'<img src="./img/pic{i}.jpg" >\n')
     md.close()
     print("影片信息已生成！")
 
