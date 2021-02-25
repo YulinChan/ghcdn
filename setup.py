@@ -56,7 +56,7 @@ def gen_film_info(video_id):
 
     # 生成README.md
     md = open('README.md', 'a+')
-    md.write(f'## [{title}](./res/index.m3u8)\n\n')
+    md.write(f'## [{title}](https://cdn.jsdelivr.net/gh/ghcdn/{video_id}/res/index.m3u8)\n\n')
     if info:
         md.write(info + '\n\n')
         md.write('<img src="./img/pic0.jpg" width=100%> \n')
@@ -65,7 +65,7 @@ def gen_film_info(video_id):
     if info:
         md.write("\n高清样图：\n\n")
         for i in range(1, len(img_links)):
-            md.write(f'<img src="./img/pic{i}.jpg" >\n')
+            md.write(f'<img src="./img/pic{i}.jpg" width=100%>\n')
     md.close()
     print("影片信息已生成！")
 
