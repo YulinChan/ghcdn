@@ -35,7 +35,9 @@ jobs:
       - name: Process video
         run: |
           ffmpeg -ss 3 -i $(cat video.txt) -vf "select=gt(scene\,0.4)" -frames:v 16 -vsync vfr -vf fps=fps=1/450 thumb%02d.jpg
-          ffmpeg -i $(cat video.txt) -c copy -f hls -hls_list_size 0 -hls_segment_filename hls%4d.ts index.m3u8
+          ffmpeg -i $(cat video.txt) \
+                 -c copy -f hls -bsf:v h264_mp4toannexb -hls_list_size 0 -hls_segment_filename 1080p%4d.ts 1080p.m3u8 \
+                 -c copy -s 1280x720 -f hls -bsf:v h264_mp4toannexb -hls_list_size 0 -hls_segment_filename 720p%4d.ts 720p.m3u8
           rm -rf $(cat video.txt)
 
       - name: Setup Git
@@ -66,7 +68,7 @@ jobs:
           mkdir -p gitdir/res/
           mkdir -p gitdir/img/
           mv index.html README.md gitdir/
-          mv index.m3u8 hls*.ts gitdir/res/
+          mv *.m3u8 *.ts gitdir/res/
           mv *.jpg gitdir/img/
           cd gitdir
           git init
@@ -76,7 +78,7 @@ jobs:
           git push -u origin master
           for i in {0..9};do
             for j in {0..9};do
-              files=(res/hls$i$j??.ts)
+              files=(res/*p$i$j??.ts)
               if [ -f ${files[0]} ];then
                 git add "${files[@]}"
                 git commit -m "$i$j st commit"
