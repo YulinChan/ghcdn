@@ -46,7 +46,7 @@ def film_info(url):
     md.write('<img src="./img/pic0.jpg" width=100%>\n')
     md.write(thumb.read())
     for i in range(1, len(img)):
-        md.write(f"![](./img/pic{i}.jpg)\n")
+        md.write(f"\n![](./img/pic{i}.jpg)")
     hls = open('hls.html', 'r')
     html = open('index.html', 'w')
     html.write(hls.read().replace('{name}', name).replace('{title}', title))
