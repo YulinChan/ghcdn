@@ -13,7 +13,6 @@ jobs:
     steps:
       - name: Install dependent
         run: |
-          aria2c -v
           sudo apt update
           sudo apt install  ffmpeg -y
           sudo pip3 install requests bs4 lxml
@@ -34,8 +33,8 @@ jobs:
       
       - name: Process video
         run: |
-          ffmpeg -ss 3 -i $(cat video.txt) -vf "select=gt(scene\,0.4)" -frames:v 16 -vsync vfr -vf fps=fps=1/450 thumb%02d.jpg
-          ffmpeg -i $(cat video.txt) -c copy -f hls -bsf:v h264_mp4toannexb -hls_time 1 -hls_list_size 0 -hls_segment_filename hls%4d.ts index.m3u8
+          ffmpeg -hide_banner -ss 3 -i $(cat video.txt) -vf "select=gt(scene\,0.4)" -frames:v 16 -vsync vfr -vf fps=fps=1/450 thumb%02d.jpg
+          ffmpeg -hide_banner -i $(cat video.txt) -c copy -f hls -bsf:v h264_mp4toannexb -hls_list_size 0 -hls_segment_filename hls%4d.ts index.m3u8
           rm -rf $(cat video.txt)
 
       - name: Setup Git
