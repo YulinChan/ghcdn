@@ -40,7 +40,7 @@ jobs:
       - name: Upload video
         env:
           CSRF_KEY: ${{ secrets.CSRF_KEY }}
-        run: python3 "${CSRF_KEY}"
+        run: python3 icourse163.py "${CSRF_KEY}"
 
       - name: Setup Git
         env:
