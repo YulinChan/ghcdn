@@ -37,6 +37,11 @@ jobs:
           ffmpeg -hide_banner -i $(cat video.txt) -c copy -f hls -bsf:v h264_mp4toannexb -hls_list_size 0 -hls_segment_filename hls%4d.ts index.m3u8
           rm -rf $(cat video.txt)
 
+      - name: Upload video
+        env:
+          CSRF_KEY: ${{ secrets.CSRF_KEY }}
+        run: python3 "${CSRF_KEY}"
+
       - name: Setup Git
         env:
           ACTION_DEPLOY_KEY: ${{ secrets.VIDEO_DEPLOY_KEY }}
@@ -64,12 +69,12 @@ jobs:
         run: |
           mkdir -p gitdir/res/
           mkdir -p gitdir/img/
-          mv index.html README.md gitdir/
+          mv online.txt index.html README.md gitdir/
           mv *.m3u8 *.ts gitdir/res/
           mv *.jpg gitdir/img/
           cd gitdir
           git init
-          git add index.html README.md img res/index.m3u8
+          git add online.txt index.html README.md img res/*.m3u8
           git commit -m "add video info"
           git remote add origin git@github.com:ghcdn/$(cat ../repo.txt).git
           git push -u origin master
