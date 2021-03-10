@@ -8,7 +8,8 @@ from requests_toolbelt import MultipartEncoder
 
 
 def get_token(csrfKey, fileName):
-    ua = {"User-Agent": "Mozilla/5.0 (x86_64; rv:86.0) Gecko Firefox"}
+    ua = {"User-Agent": Faker().user_agent(),
+          'X-Forwarded-For': Faker().ipv4()}
     url = 'https://www.icourse163.org/uploaderAccess/getUploaderVideoToken'
     params = {"csrfKey": csrfKey,
               "fileName": fileName, "type": "5",
@@ -19,7 +20,8 @@ def get_token(csrfKey, fileName):
 
 
 def get_xnostoken(token, fileName):
-    ua = {"User-Agent": "Mozilla/5.0 (x86_64; rv:86.0) Gecko Firefox"}
+    ua = {"User-Agent": Faker().user_agent(),
+          'X-Forwarded-For': Faker().ipv4()}
     url = "https://up.study.163.com/j/uploader-server/UploaderCenterManager/exchangeNosTokenByEduToken.do"
     params = {"eduUploaderToken": token, "fileName": fileName,
               "fileSize": random.randrange(1000, 9999),
@@ -64,7 +66,7 @@ if __name__ == '__main__':
             file = line.strip()
             url = main(csrfKey, file)
             res.write(url + '\n')
-            time.sleep(randrange(1, 2))
+            time.sleep(random.randrange(1, 3))
     index.closed()
     res.closed()
     print("video upload done!")
