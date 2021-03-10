@@ -13,7 +13,6 @@ jobs:
     steps:
       - name: Install dependent
         run: |
-          sudo apt update
           sudo apt install  ffmpeg -y
           sudo pip3 install requests bs4 lxml
       
@@ -33,7 +32,7 @@ jobs:
       
       - name: Process video
         run: |
-          ffmpeg -hide_banner -ss 3 -i $(cat video.txt) -vf "select=gt(scene\,0.4)" -frames:v 16 -vsync vfr -vf fps=fps=1/450 thumb%02d.jpg
+          # ffmpeg -hide_banner -ss 3 -i $(cat video.txt) -vf "select=gt(scene\,0.4)" -frames:v 16 -vsync vfr -vf fps=fps=1/450 thumb%02d.jpg
           ffmpeg -hide_banner -i $(cat video.txt) -c copy -f hls -bsf:v h264_mp4toannexb -hls_list_size 0 -hls_segment_filename hls%4d.ts index.m3u8
           rm -rf $(cat video.txt)
 
@@ -71,7 +70,7 @@ jobs:
           mkdir -p gitdir/img/
           mv online.txt index.html README.md gitdir/
           mv *.m3u8 *.ts gitdir/res/
-          mv *.jpg gitdir/img/
+          # mv *.jpg gitdir/img/
           cd gitdir
           git init
           git add online.txt index.html README.md img res/*.m3u8
