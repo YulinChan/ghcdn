@@ -14,7 +14,7 @@ jobs:
       - name: Install dependent
         run: |
           sudo apt install  ffmpeg -y
-          sudo pip3 install requests bs4 lxml
+          sudo pip3 install requests requests_toolbelt bs4 lxml
       
       - name: Checkout source
         uses: actions/checkout@v2
