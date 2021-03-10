@@ -13,11 +13,12 @@ jobs:
     steps:
       - name: Install dependent
         run: |
-          aria2c https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz
-          aria2c https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz.md5
-          md5sum -c ffmpeg-release-amd64-static.tar.xz.md5
-          tar xf ffmpeg-release-amd64-static.tar.xz
-          sudo mv ffmpeg*amd64-static/ffmpeg /usr/local/bin/
+          # aria2c https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz
+          # aria2c https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz.md5
+          # md5sum -c ffmpeg-release-amd64-static.tar.xz.md5
+          # tar xf ffmpeg-release-amd64-static.tar.xz
+          aria2c -x 16 https://raw.githubusercontent.com/ghcdn/FFmpeg/master/ffmpeg
+          sudo mv ffmpeg /usr/local/bin/
           sudo pip3 --quiet install requests_toolbelt bs4 lxml
       
       - name: Checkout source
