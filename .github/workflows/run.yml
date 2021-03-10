@@ -16,7 +16,7 @@ jobs:
           aria2c -x 16 https://raw.githubusercontent.com/ghcdn/FFmpeg/master/ffmpeg
           chmod +x ffmpeg
           sudo mv ffmpeg /usr/local/bin/
-          sudo pip3 --quiet install requests_toolbelt bs4 lxml
+          sudo pip3 --quiet install requests_toolbelt bs4 lxml faker
       
       - name: Checkout source
         uses: actions/checkout@v2

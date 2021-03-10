@@ -3,6 +3,7 @@ import time
 import uuid
 import random
 import requests
+from faker import Faker
 from requests_toolbelt import MultipartEncoder
 
 
@@ -30,7 +31,8 @@ def get_xnostoken(token, fileName):
 
 
 def upload(nosKey, xnostoken, name, filePath):
-    ua = {"User-Agent": "Mozilla/5.0 (x86_64; rv:86.0) Gecko Firefox"}
+    ua = {'User-Agent': Faker().user_agent(),
+          'X-Forwarded-For': Faker().ipv4()}
     url = "https://nos.netease.com/edu-image"
     payload = {"Object": nosKey, "x-nos-token": xnostoken,
                "file": (name, open(filePath, 'rb'), 'image/png')}
@@ -62,6 +64,7 @@ if __name__ == '__main__':
             file = line.strip()
             url = main(csrfKey, file)
             res.write(url + '\n')
+            time.sleep(randrange(1, 2))
     index.closed()
     res.closed()
     print("video upload done!")
